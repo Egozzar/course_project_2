@@ -1,5 +1,6 @@
-from src.hh_api import HHApi
 from unittest.mock import patch
+
+from src.hh_api import HHApi
 
 
 def test_hh_api_init(arguments_for_init):

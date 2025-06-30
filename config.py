@@ -1,4 +1,4 @@
-from typing import Final
+from typing import Final, Callable
 import os
 
 # Универсальный адрес корня проекта
@@ -20,7 +20,7 @@ params: dict = {
 }
 
 # функция для создания пустого словаря
-create_dict: callable = lambda: {} # pragma: no cover
+create_dict: Callable = lambda: {} # pragma: no cover
 
 
 # Аргументы для функции получения вакансий с hh.ru

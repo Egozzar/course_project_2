@@ -1,10 +1,9 @@
-from pprint import pprint
-from typing import Any, Optional
+from typing import Any
+
 import requests
 
 from src.abstract_for_api import AbstractForAPI
-from config import arguments, create_dict
-from src.vacancy import Vacancy
+
 
 class DescriptArg:
     """
@@ -31,7 +30,7 @@ class DescriptArg:
             # наличие пустого словаря
             case dict(vacancies) if not vacancies:
                 return True
-            case _: # wildcard
+            case _:  # wildcard
                 return False
 
     def __set_name__(self, owner: Any, name: str) -> None:
@@ -70,6 +69,7 @@ class HHApi(AbstractForAPI):
     Класс, наследуемый от абстрактного класса, для работы с платформой hh.ru.
     Экземпляры класса подключаются к API и получают вакансии.
     """
+
     # Создание аргументов класса(дескрипторов), необходимых
     # для формирования аргументов экземпляра класса
     url_api = DescriptArg()
@@ -77,12 +77,7 @@ class HHApi(AbstractForAPI):
     params = DescriptArg()
     vacancies = DescriptArg()
 
-    def __init__(self,
-                 vacancies_dict: dict,
-                 url: str,
-                 headers_dict: dict[str: str],
-                 params_dict: dict[str: Any]
-                 ) -> None:
+    def __init__(self, vacancies_dict: dict, url: str, headers_dict: dict, params_dict: dict) -> None:
         """
         Метод инициализирует новый экземпляр класса
         :param vacancies_dict: (dict) пустой словарь для сбора вакансий
@@ -95,12 +90,12 @@ class HHApi(AbstractForAPI):
         self.params = params_dict
         self.vacancies = vacancies_dict
 
-    def _connect_to_api(self) -> Optional[list]:
+    def _connect_to_api(self) -> Any:
         """
         Метод для подключения к API внешнего сервиса
-        :return:(Optional[list]]) ответ внешнего сервиса
+        :return:(Any) ответ внешнего сервиса
         """
-        response = requests.get(self.url_api, headers = self.headers, params = self.params)
+        response = requests.get(self.url_api, headers=self.headers, params=self.params)
         status_code = response.status_code
 
         if status_code == 200:
@@ -126,11 +121,3 @@ class HHApi(AbstractForAPI):
                 self.vacancies[keyword] = vacancies_lst
 
             self.params["page"] += 1
-
-# if __name__ == '__main__':
-#     ex = HHApi(create_dict(), *arguments)
-#     ex.get_vacancies("Python")
-#
-#     lst = Vacancy.create_vacancies(ex.vacancies)
-#
-#     print(lst)
