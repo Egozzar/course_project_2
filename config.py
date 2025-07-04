@@ -12,7 +12,7 @@ headers = {"User-Agent": "HH-User-Agent"}
 
 # Параметры запроса к API hh.ru
 params: dict = {
-    "text":"", # Поисковый запрос
+    "text": "", # Поисковый запрос
     "per_page": 100, # Количество вакансий на странице
     "page": 0, # Номер страницы
     "period": 14, # Количество дней, в пределах которых нужно найти вакансии
@@ -21,13 +21,5 @@ params: dict = {
 
 # функция для создания пустого словаря
 create_dict: Callable = lambda: {} # pragma: no cover
-
-
-# Аргументы для функции получения вакансий с hh.ru
-arguments: list = [
-    url_api,
-    headers,
-    params
-]
 
 #pytest --cov=src --cov-report=html -генерация отчета о покрытии в HTML-формате

@@ -195,6 +195,20 @@ class Vacancy:
             print("Несравнимые объекты")
             return False
 
+    def __lt__(self, other: Union[Vacancy, int]) -> Any:
+        """
+        Метод сравнения на "меньше" между экземплярами класса
+        :param other: Union[Vacancy, int] принимаемый объект для сравнения
+        :return: (Any) результат сравнения
+        """
+        obj = self.__verify_vacancies(other)
+
+        if obj:
+            return self.salary_min < obj
+        else:
+            print("Несравнимые объекты")
+            return False
+
     @classmethod
     def create_vacancy(cls, vacancy_dict: dict) -> Optional[Vacancy]:
         """
@@ -260,6 +274,9 @@ class Vacancy:
         keyword = [*working_dict][0]
         vacancies_lst = working_dict[keyword]
 
+        if not vacancies_lst:
+            return "Вакансий по этому запросу пока нет"
+
         # Генерируем результирующий список вакансий
         selected_vacancies = [cls.create_vacancy(elem) for elem in vacancies_lst if cls.create_vacancy(elem)]
 
@@ -272,10 +289,13 @@ class Vacancy:
             return selected_vacancies
         else:
             file_name = f"reports/on_request_{keyword}.json" if keyword else "on_empty_request.json"
-            return (
-                f"  Новых вакансий по запросу {keyword} нет. Актуальные вакансии\n"
-                f"можно посмотреть в файле '{file_name}'"
+            answer = (
+                f"А вот ничего нового по этой теме не пишут.\n"
+                f"Всё, что в файле '{file_name}' - всё самое свежее.\n"
+                f"Пишите письма!.."
             )
+
+            return answer
 
     def to_json(self) -> dict:
         """
